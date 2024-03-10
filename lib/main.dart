@@ -64,21 +64,20 @@ class LearningItemCard extends StatelessWidget {
         child: Column(mainAxisSize: MainAxisSize.min, children: [
           LayoutBuilder(builder: (context, constraintsssssss) {
             //tip AspectiRatioはheightがinfiniteの場合、widthを基準にしてくれる
-            return Container(
-                child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: LayoutBuilder(builder: (context, constraintsss) {
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Flexible(
-                              child: ClipRRect(
-                                  child: leaningItem.imageWidget,
-                                  borderRadius: BorderRadius.circular(
-                                      constraintsss.maxWidth / 18))),
-                        ],
-                      );
-                    })));
+            return AspectRatio(
+                aspectRatio: 16 / 9,
+                child: LayoutBuilder(builder: (context, constraintsss) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                          child: ClipRRect(
+                              child: leaningItem.imageWidget,
+                              borderRadius: BorderRadius.circular(
+                                  constraintsss.maxWidth / 18))),
+                    ],
+                  );
+                }));
           }),
           LayoutBuilder(builder: (context, constraints) {
             return Padding(
@@ -93,10 +92,13 @@ class LearningItemCard extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: constraints.maxWidth / 30),
-                  SelectableText(
-                    textAlign: TextAlign.center,
-                    leaningItem.description,
-                    style: TextStyle(fontSize: constraints.maxWidth / 30),
+                  Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: SelectableText(
+                      textAlign: TextAlign.center,
+                      leaningItem.description,
+                      style: TextStyle(fontSize: constraints.maxWidth / 30),
+                    ),
                   ),
                   Padding(
                     padding: EdgeInsets.all(constraints.maxWidth / 25),
@@ -107,26 +109,35 @@ class LearningItemCard extends StatelessWidget {
                           .map((tag) => Chip(
                                 label: Text(tag.name),
                                 backgroundColor: tag.color,
+                                labelStyle: TextStyle(
+                                    fontSize: constraints.maxWidth /
+                                        35), // Adjust the font size here
                               ))
                           .toList(),
                     ),
                   ),
-                  Row(
-                    children: [
-                      Expanded(
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: constraints.maxWidth / 35,
+                        right: constraints.maxWidth / 35,
+                        bottom: constraints.maxWidth / 35),
+                    child: Row(
+                      children: [
+                        Expanded(
+                            child: SelectableText(
+                                textAlign: TextAlign.start,
+                                leaningItem.progress.toString().split('.').last,
+                                style: TextStyle(
+                                    fontSize: constraints.maxWidth / 30))),
+                        Expanded(
                           child: SelectableText(
-                              textAlign: TextAlign.start,
-                              leaningItem.progress.toString().split('.').last,
+                              textAlign: TextAlign.end,
+                              '${leaningItem.date.year}/${leaningItem.date.month}',
                               style: TextStyle(
-                                  fontSize: constraints.maxWidth / 30))),
-                      Expanded(
-                        child: SelectableText(
-                            textAlign: TextAlign.end,
-                            '${leaningItem.date.year}/${leaningItem.date.month}',
-                            style:
-                                TextStyle(fontSize: constraints.maxWidth / 30)),
-                      ),
-                    ],
+                                  fontSize: constraints.maxWidth / 30)),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
               ),
