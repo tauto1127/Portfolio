@@ -6,7 +6,7 @@ void main() {
   runApp(const MyApp());
 }
 
-LeaningItem content1 = LeaningItem(
+LearningItem content1 = LearningItem(
   imageWidget: Image.network('https://picsum.photos/1920/1080'),
   tags: [Tag('Flutter', Colors.blue), Tag('Dart', Colors.blue)],
   progress: Progress.notStarted,
@@ -15,7 +15,7 @@ LeaningItem content1 = LeaningItem(
   description:
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
 );
-LeaningItem content2 = LeaningItem(
+LearningItem content2 = LearningItem(
   imageWidget: Image.network('https://picsum.photos/1920/1080'),
   tags: [Tag('React', Colors.red), Tag('JavaScript', Colors.yellow)],
   progress: Progress.inProgress,
@@ -24,7 +24,7 @@ LeaningItem content2 = LeaningItem(
   description:
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。このカードは、ユーザーが学習アイテムの詳細情報にアクセスできるようにするために使用されます。ユーザーは、タイトル、説明、画像、タグ、進行状況、日付などの情報を確認できます。さらに、ユーザーは学習アイテムの進行状況を更新することもできます。このカードは、学習アプリや教育アプリなどのアプリケーションで広く使用されています。',
 );
-LeaningItem content3 = LeaningItem(
+LearningItem content3 = LearningItem(
   imageWidget: Image.network('https://picsum.photos/1920/1080'),
   tags: [Tag('Python', Colors.green), Tag('Django', Colors.green)],
   progress: Progress.completed,
@@ -86,7 +86,7 @@ class LearningItemList extends StatelessWidget {
 }
 
 class LearningItemCard extends StatelessWidget {
-  final LeaningItem leaningItem;
+  final LearningItem leaningItem;
   final double? width;
   const LearningItemCard({
     super.key,
@@ -200,7 +200,7 @@ class LearningItemCard extends StatelessWidget {
   }
 }
 
-class LeaningItem {
+class LearningItem {
   final String title;
   final String description;
   final Image imageWidget;
@@ -208,7 +208,7 @@ class LeaningItem {
   final Progress progress;
   final LeaningItemDate date;
 
-  LeaningItem(
+  LearningItem(
       {required this.imageWidget,
       required this.tags,
       required this.progress,
