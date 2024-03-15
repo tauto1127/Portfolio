@@ -47,20 +47,22 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: Scaffold(
-            body: GridView.custom(
-                gridDelegate: SliverWovenGridDelegate.count(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 8,
-                    pattern: [
-                      WovenGridTile(3 / 5),
-                      WovenGridTile(1),
-                    ]),
-                childrenDelegate: SliverChildBuilderDelegate(
-                  (context, index) => index.isOdd
-                      ? LearningItemCard(leaningItem: content1)
-                      : LearningItemCard(leaningItem: content2),
-                ))));
+          body: LayoutBuilder(
+            builder: (context, constraints) {
+              return SingleChildScrollView(
+                  child: StaggeredGrid.count(
+                mainAxisSpacing: 25,
+                crossAxisSpacing: 25,
+                crossAxisCount: 2,
+                children: [
+                  LearningItemCard(leaningItem: content1),
+                  LearningItemCard(leaningItem: content2),
+                  LearningItemCard(leaningItem: content3),
+                ],
+              ));
+            },
+          ),
+        ));
   }
 }
 
@@ -109,88 +111,90 @@ class LearningItemCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(mainAxisSize: MainAxisSize.min, children: [
-          AspectRatio(
-              aspectRatio: 16 / 9,
-              child: LayoutBuilder(builder: (context, constraintsss) {
-                return Column(
-                  mainAxisSize: MainAxisSize.min,
+        child: SingleChildScrollView(
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            AspectRatio(
+                aspectRatio: 16 / 9,
+                child: LayoutBuilder(builder: (context, constraintsss) {
+                  return Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Flexible(
+                          child: ClipRRect(
+                              child: leaningItem.imageWidget,
+                              borderRadius: BorderRadius.circular(
+                                  constraintsss.maxWidth / 18))),
+                    ],
+                  );
+                })),
+            LayoutBuilder(builder: (context, constraints) {
+              return Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Column(
                   children: [
-                    Flexible(
-                        child: ClipRRect(
-                            child: leaningItem.imageWidget,
-                            borderRadius: BorderRadius.circular(
-                                constraintsss.maxWidth / 18))),
+                    TextButton(
+                      onPressed: () {},
+                      child: SelectableText(
+                        leaningItem.title,
+                        style: TextStyle(fontSize: constraints.maxWidth / 20),
+                      ),
+                    ),
+                    SizedBox(height: constraints.maxWidth / 30),
+                    Padding(
+                        padding: const EdgeInsets.all(5.0),
+                        // child: SelectableText(
+                        //   textAlign: TextAlign.center,
+                        //   leaningItem.description,
+                        //   style: TextStyle(fontSize: constraints.maxWidth / 30),
+                        child: Text(
+                          leaningItem.description,
+                          style: TextStyle(fontSize: constraints.maxWidth / 30),
+                        )),
+                    Padding(
+                      padding: EdgeInsets.all(constraints.maxWidth / 25),
+                      child: Wrap(
+                        spacing: constraints.maxWidth / 40,
+                        runSpacing: constraints.maxWidth / 40,
+                        children: leaningItem.tags
+                            .map((tag) => Chip(
+                                  label: Text(tag.name),
+                                  backgroundColor: tag.color,
+                                  labelStyle: TextStyle(
+                                      fontSize: constraints.maxWidth /
+                                          35), // Adjust the font size here
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.only(
+                    //       left: constraints.maxWidth / 35,
+                    //       right: constraints.maxWidth / 35,
+                    //       bottom: constraints.maxWidth / 35),
+                    //   child: Row(
+                    //     children: [
+                    //       Expanded(
+                    //           child: SelectableText(
+                    //               textAlign: TextAlign.start,
+                    //               leaningItem.progress.toString().split('.').last,
+                    //               style: TextStyle(
+                    //                   fontSize: constraints.maxWidth / 30))),
+                    //       Expanded(
+                    //         child: SelectableText(
+                    //             textAlign: TextAlign.end,
+                    //             '${leaningItem.date.year}/${leaningItem.date.month}',
+                    //             style: TextStyle(
+                    //                 fontSize: constraints.maxWidth / 30)),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
-                );
-              })),
-          LayoutBuilder(builder: (context, constraints) {
-            return Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Column(
-                children: [
-                  TextButton(
-                    onPressed: () {},
-                    child: SelectableText(
-                      leaningItem.title,
-                      style: TextStyle(fontSize: constraints.maxWidth / 20),
-                    ),
-                  ),
-                  SizedBox(height: constraints.maxWidth / 30),
-                  Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      // child: SelectableText(
-                      //   textAlign: TextAlign.center,
-                      //   leaningItem.description,
-                      //   style: TextStyle(fontSize: constraints.maxWidth / 30),
-                      child: Text(
-                        leaningItem.description,
-                        style: TextStyle(fontSize: constraints.maxWidth / 30),
-                      )),
-                  Padding(
-                    padding: EdgeInsets.all(constraints.maxWidth / 25),
-                    child: Wrap(
-                      spacing: constraints.maxWidth / 40,
-                      runSpacing: constraints.maxWidth / 40,
-                      children: leaningItem.tags
-                          .map((tag) => Chip(
-                                label: Text(tag.name),
-                                backgroundColor: tag.color,
-                                labelStyle: TextStyle(
-                                    fontSize: constraints.maxWidth /
-                                        35), // Adjust the font size here
-                              ))
-                          .toList(),
-                    ),
-                  ),
-                  // Padding(
-                  //   padding: EdgeInsets.only(
-                  //       left: constraints.maxWidth / 35,
-                  //       right: constraints.maxWidth / 35,
-                  //       bottom: constraints.maxWidth / 35),
-                  //   child: Row(
-                  //     children: [
-                  //       Expanded(
-                  //           child: SelectableText(
-                  //               textAlign: TextAlign.start,
-                  //               leaningItem.progress.toString().split('.').last,
-                  //               style: TextStyle(
-                  //                   fontSize: constraints.maxWidth / 30))),
-                  //       Expanded(
-                  //         child: SelectableText(
-                  //             textAlign: TextAlign.end,
-                  //             '${leaningItem.date.year}/${leaningItem.date.month}',
-                  //             style: TextStyle(
-                  //                 fontSize: constraints.maxWidth / 30)),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
-                ],
-              ),
-            );
-          }),
-        ]),
+                ),
+              );
+            }),
+          ]),
+        ),
       );
     });
   }
