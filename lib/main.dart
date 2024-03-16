@@ -16,7 +16,7 @@ LearningItem content1 = LearningItem(
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
 );
 LearningItem content2 = LearningItem(
-  imageWidget: Image.network('https://picsum.photos/1920/1080'),
+  imageWidget: Image.network('https://picsum.photos/1080/1920'),
   tags: [Tag('React', Colors.red), Tag('JavaScript', Colors.yellow)],
   progress: Progress.inProgress,
   date: LeaningItemDate(2022, 12),
@@ -58,6 +58,9 @@ class MyApp extends StatelessWidget {
                   LearningItemCard(leaningItem: content1),
                   LearningItemCard(leaningItem: content2),
                   LearningItemCard(leaningItem: content3),
+                  LearningItemCard(leaningItem: content1),
+                  LearningItemCard(leaningItem: content2),
+                  LearningItemCard(leaningItem: content3),
                 ],
               ));
             },
@@ -88,10 +91,12 @@ class LearningItemList extends StatelessWidget {
 class LearningItemCard extends StatelessWidget {
   final LearningItem leaningItem;
   final double? width;
+  final Function(Image image)? imageWidget;
   const LearningItemCard({
     super.key,
     required this.leaningItem,
     this.width,
+    this.imageWidget,
   });
 
   @override
@@ -113,20 +118,18 @@ class LearningItemCard extends StatelessWidget {
         ),
         child: SingleChildScrollView(
           child: Column(mainAxisSize: MainAxisSize.min, children: [
-            AspectRatio(
-                aspectRatio: 16 / 9,
-                child: LayoutBuilder(builder: (context, constraintsss) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Flexible(
-                          child: ClipRRect(
-                              child: leaningItem.imageWidget,
-                              borderRadius: BorderRadius.circular(
-                                  constraintsss.maxWidth / 18))),
-                    ],
-                  );
-                })),
+            LayoutBuilder(builder: (context, constraintsss) {
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Flexible(
+                      child: ClipRRect(
+                          child: leaningItem.imageWidget,
+                          borderRadius: BorderRadius.circular(
+                              constraintsss.maxWidth / 18))),
+                ],
+              );
+            }),
             LayoutBuilder(builder: (context, constraints) {
               return Padding(
                 padding: const EdgeInsets.all(15.0),
