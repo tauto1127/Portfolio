@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 void main() {
@@ -34,8 +33,15 @@ LearningItem content3 = LearningItem(
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。このカードは、ユーザーが学習アイテムの詳細情報にアクセスできるようにするために使用されます。ユーザーは、タイトル、説明、画像、タグ、進行状況、日付などの情報を確認できます。さらに、ユーザーは学習アイテムの進行状況を更新することもできます。このカードは、学習アプリや教育アプリなどのアプリケーションで広く使用されています。',
 );
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  SingleChildScrollView scrollController = const SingleChildScrollView();
 
   // This widget is the root of your application.
   @override
@@ -47,25 +53,71 @@ class MyApp extends StatelessWidget {
           useMaterial3: true,
         ),
         home: Scaffold(
+          appBar: CustomAppBar(singleChildScrollView: scrollController),
           body: LayoutBuilder(
             builder: (context, constraints) {
               return SingleChildScrollView(
+                  controller: scrollController.controller,
                   child: StaggeredGrid.count(
-                mainAxisSpacing: 25,
-                crossAxisSpacing: 25,
-                crossAxisCount: 2,
-                children: [
-                  LearningItemCard(leaningItem: content1),
-                  LearningItemCard(leaningItem: content2),
-                  LearningItemCard(leaningItem: content3),
-                  LearningItemCard(leaningItem: content1),
-                  LearningItemCard(leaningItem: content2),
-                  LearningItemCard(leaningItem: content3),
-                ],
-              ));
+                    mainAxisSpacing: 25,
+                    crossAxisSpacing: 25,
+                    crossAxisCount: 2,
+                    children: [
+                      LearningItemCard(leaningItem: content1),
+                      LearningItemCard(leaningItem: content2),
+                      LearningItemCard(leaningItem: content3),
+                      LearningItemCard(leaningItem: content1),
+                      LearningItemCard(leaningItem: content2),
+                      LearningItemCard(leaningItem: content3),
+                    ],
+                  ));
             },
           ),
         ));
+  }
+}
+
+class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
+  final SingleChildScrollView singleChildScrollView;
+  const CustomAppBar({super.key, required this.singleChildScrollView});
+
+  @override
+  State<CustomAppBar> createState() => _CustomAppBarState();
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
+}
+
+class _CustomAppBarState extends State<CustomAppBar> {
+  double transparentOfAppBar = 255;
+  @override
+  Widget build(BuildContext context) {
+    if (widget.singleChildScrollView.controller != null) {
+      widget.singleChildScrollView.controller?.addListener(() {
+        if ((widget.singleChildScrollView.controller?.offset ?? 0) > 255) {
+          transparentOfAppBar = 255;
+        } else {
+          transparentOfAppBar = widget.singleChildScrollView.controller!.offset;
+        }
+      });
+    }
+    return LayoutBuilder(builder: (context, constraints) {
+      return Container(
+        constraints: const BoxConstraints.expand(),
+        color: const Color.fromARGB(255, 255, 255, 0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            TextButton(
+              child: const Text("活動成果"),
+              onPressed: () {},
+            ),
+            Text(
+                '制約はheight: ${constraints.maxHeight}, width: ${constraints.maxWidth}です。, ${transparentOfAppBar}'),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -103,7 +155,7 @@ class LearningItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
-        width: this.width ?? constraints.maxWidth,
+        width: width ?? constraints.maxWidth,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(constraints.maxWidth / 18),
@@ -124,9 +176,9 @@ class LearningItemCard extends StatelessWidget {
                 children: [
                   Flexible(
                       child: ClipRRect(
-                          child: leaningItem.imageWidget,
                           borderRadius: BorderRadius.circular(
-                              constraintsss.maxWidth / 18))),
+                              constraintsss.maxWidth / 18),
+                          child: leaningItem.imageWidget)),
                 ],
               );
             }),
@@ -230,15 +282,13 @@ class LeaningItemDate {
   late final int year;
   late final int month;
 
-  LeaningItemDate(int year, int month) {
+  LeaningItemDate(this.year, this.month) {
     if (2000 > year || year > 2200) {
       throw Exception('Year must be between 2000 and 2100');
     }
     if (1 > month || month > 12) {
       throw Exception('Month must be between 1 and 12');
     }
-    this.year = year;
-    this.month = month;
   }
 }
 
