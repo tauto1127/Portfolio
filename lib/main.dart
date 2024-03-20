@@ -11,8 +11,7 @@ LearningItem content1 = LearningItem(
   progress: Progress.notStarted,
   date: LeaningItemDate(2022, 12),
   title: 'Learning Flutter',
-  description:
-      'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
+  description: 'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
 );
 LearningItem content2 = LearningItem(
   imageWidget: Image.network('https://picsum.photos/1080/1920'),
@@ -42,7 +41,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   SingleChildScrollView scrollController = const SingleChildScrollView();
-
+  double scrollOffset = 0;
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -53,10 +52,19 @@ class _MyAppState extends State<MyApp> {
           useMaterial3: true,
         ),
         home: Scaffold(
-          appBar: CustomAppBar(singleChildScrollView: scrollController),
+          appBar: CustomAppBar(offset: scrollOffset),
           body: LayoutBuilder(
             builder: (context, constraints) {
-              return SingleChildScrollView(
+              return NotificationListener(
+                onNotification: (notification) {
+                  if (notification is UserScrollNotification) {
+                    setState(() {
+                      scrollOffset = notification.metrics.pixels;
+                    });
+                  }
+                  return false;
+                },
+                child: SingleChildScrollView(
                   controller: scrollController.controller,
                   child: StaggeredGrid.count(
                     mainAxisSpacing: 25,
@@ -70,41 +78,39 @@ class _MyAppState extends State<MyApp> {
                       LearningItemCard(leaningItem: content2),
                       LearningItemCard(leaningItem: content3),
                     ],
-                  ));
+                  ),
+                ),
+              );
             },
           ),
         ));
   }
 }
 
-class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  final SingleChildScrollView singleChildScrollView;
-  const CustomAppBar({super.key, required this.singleChildScrollView});
+//
+// }
 
-  @override
-  State<CustomAppBar> createState() => _CustomAppBarState();
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final double offset;
+  const CustomAppBar({super.key, required this.offset});
 
-  @override
-  Size get preferredSize => const Size.fromHeight(60);
-}
+  int _calculateOpacity(double offset) {
+    if (offset < 0) {
+      return 0;
+    } else if (offset > 255) {
+      return 0;
+    } else {
+      return 255 - offset.toInt();
+    }
+  }
 
-class _CustomAppBarState extends State<CustomAppBar> {
-  double transparentOfAppBar = 255;
   @override
   Widget build(BuildContext context) {
-    if (widget.singleChildScrollView.controller != null) {
-      widget.singleChildScrollView.controller?.addListener(() {
-        if ((widget.singleChildScrollView.controller?.offset ?? 0) > 255) {
-          transparentOfAppBar = 255;
-        } else {
-          transparentOfAppBar = widget.singleChildScrollView.controller!.offset;
-        }
-      });
-    }
+    debugPrint('offset: $offset');
     return LayoutBuilder(builder: (context, constraints) {
       return Container(
         constraints: const BoxConstraints.expand(),
-        color: const Color.fromARGB(255, 255, 255, 0),
+        color: Color.fromARGB(_calculateOpacity(offset), 255, 255, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -112,13 +118,15 @@ class _CustomAppBarState extends State<CustomAppBar> {
               child: const Text("活動成果"),
               onPressed: () {},
             ),
-            Text(
-                '制約はheight: ${constraints.maxHeight}, width: ${constraints.maxWidth}です。, ${transparentOfAppBar}'),
+            Text('制約はheight: ${constraints.maxHeight}, width: ${constraints.maxWidth}です。, '),
           ],
         ),
       );
     });
   }
+
+  @override
+  Size get preferredSize => const Size.fromHeight(60);
 }
 
 class LearningItemList extends StatelessWidget {
@@ -134,8 +142,7 @@ class LearningItemList extends StatelessWidget {
         ),
         itemCount: 1,
         itemBuilder: (BuildContext context, int index) {
-          return LearningItemCard(
-              leaningItem: index.isEven ? content1 : content2);
+          return LearningItemCard(leaningItem: index.isEven ? content1 : content2);
         });
   }
 }
@@ -175,10 +182,7 @@ class LearningItemCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              constraintsss.maxWidth / 18),
-                          child: leaningItem.imageWidget)),
+                      child: ClipRRect(borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18), child: leaningItem.imageWidget)),
                 ],
               );
             }),
@@ -214,9 +218,7 @@ class LearningItemCard extends StatelessWidget {
                             .map((tag) => Chip(
                                   label: Text(tag.name),
                                   backgroundColor: tag.color,
-                                  labelStyle: TextStyle(
-                                      fontSize: constraints.maxWidth /
-                                          35), // Adjust the font size here
+                                  labelStyle: TextStyle(fontSize: constraints.maxWidth / 35), // Adjust the font size here
                                 ))
                             .toList(),
                       ),
