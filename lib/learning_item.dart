@@ -70,10 +70,6 @@ class LearningItemCard extends StatelessWidget {
                     SizedBox(height: constraints.maxWidth / 30),
                     Padding(
                         padding: const EdgeInsets.all(5.0),
-                        // child: SelectableText(
-                        //   textAlign: TextAlign.center,
-                        //   leaningItem.description,
-                        //   style: TextStyle(fontSize: constraints.maxWidth / 30),
                         child: Text(
                           leaningItem.description,
                           style: TextStyle(fontSize: constraints.maxWidth / 30),

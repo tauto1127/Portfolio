@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:portfolio/custom_appbar.dart';
 import 'package:portfolio/learning_item.dart';
 
 void main() {
   runApp(const MyApp());
 }
-
-
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -19,7 +16,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   SingleChildScrollView scrollController = const SingleChildScrollView();
   double scrollOffset = 0;
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -50,10 +47,6 @@ class _MyAppState extends State<MyApp> {
         ));
   }
 }
-
-//
-// }
-
 
 class LearningItemCard extends StatelessWidget {
   final LearningItem leaningItem;
@@ -109,10 +102,6 @@ class LearningItemCard extends StatelessWidget {
                     SizedBox(height: constraints.maxWidth / 30),
                     Padding(
                         padding: const EdgeInsets.all(5.0),
-                        // child: SelectableText(
-                        //   textAlign: TextAlign.center,
-                        //   leaningItem.description,
-                        //   style: TextStyle(fontSize: constraints.maxWidth / 30),
                         child: Text(
                           leaningItem.description,
                           style: TextStyle(fontSize: constraints.maxWidth / 30),
@@ -131,29 +120,6 @@ class LearningItemCard extends StatelessWidget {
                             .toList(),
                       ),
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.only(
-                    //       left: constraints.maxWidth / 35,
-                    //       right: constraints.maxWidth / 35,
-                    //       bottom: constraints.maxWidth / 35),
-                    //   child: Row(
-                    //     children: [
-                    //       Expanded(
-                    //           child: SelectableText(
-                    //               textAlign: TextAlign.start,
-                    //               leaningItem.progress.toString().split('.').last,
-                    //               style: TextStyle(
-                    //                   fontSize: constraints.maxWidth / 30))),
-                    //       Expanded(
-                    //         child: SelectableText(
-                    //             textAlign: TextAlign.end,
-                    //             '${leaningItem.date.year}/${leaningItem.date.month}',
-                    //             style: TextStyle(
-                    //                 fontSize: constraints.maxWidth / 30)),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               );

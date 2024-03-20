@@ -1,1 +1,1 @@
-const double AppBarSize = 200;
+const double appBarSize = 200;
