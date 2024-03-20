@@ -94,13 +94,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double offset;
   const CustomAppBar({super.key, required this.offset});
 
+  static const max = 255 * 10;
   int _calculateOpacity(double offset) {
-    if (offset < 0) {
-      return 0;
-    } else if (offset > 255) {
+    if (offset < 0 || offset > max) {
       return 0;
     } else {
-      return 255 - offset.toInt();
+      return 255 - (255 * (offset / max)).toInt();
     }
   }
 
