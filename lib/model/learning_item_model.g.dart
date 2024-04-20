@@ -7,7 +7,8 @@ part of 'learning_item_model.dart';
 // **************************************************************************
 
 LearningItem _$LearningItemFromJson(Map<String, dynamic> json) => LearningItem(
-      imageUrl: Uri.parse(json['imageUrl'] as String),
+      imageUrl:
+          (json['imageUrl'] as List<dynamic>).map((e) => e as String).toList(),
       tags: (json['tags'] as List<dynamic>)
           .map((e) => Tag.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -21,7 +22,7 @@ Map<String, dynamic> _$LearningItemToJson(LearningItem instance) =>
     <String, dynamic>{
       'title': instance.title,
       'description': instance.description,
-      'imageUrl': instance.imageUrl.toString(),
+      'imageUrl': instance.imageUrl,
       'tags': instance.tags,
       'progress': _$ProgressEnumMap[instance.progress]!,
       'date': instance.date,

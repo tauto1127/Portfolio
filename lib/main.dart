@@ -87,8 +87,7 @@ class LearningItemCard extends StatelessWidget {
                 children: [
                   Flexible(
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18),
-                          child: Image.network(leaningItem.imageUrl.toString()))),
+                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18), child: Image.network(leaningItem.imageUrl[0]))),
                 ],
               );
             }),

@@ -25,7 +25,7 @@ part 'learning_item_model.g.dart';
 class LearningItem {
   final String title;
   final String description;
-  final Uri imageUrl;
+  final List<String> imageUrl;
   final List<Tag> tags;
   final Progress progress;
   final LeaningItemDate date;

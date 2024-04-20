@@ -57,8 +57,7 @@ class LearningItemCard extends StatelessWidget {
                 children: [
                   Flexible(
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18),
-                          child: Image.network(leaningItem.imageUrl.toString()))),
+                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18), child: Image.network(leaningItem.imageUrl[0]))),
                 ],
               );
             }),
@@ -113,7 +112,7 @@ enum Progress {
 }
 
 LearningItem content1 = LearningItem(
-  imageUrl: Uri.parse('https://picsum.photos/1920/1080'),
+  imageUrl: ['https://picsum.photos/1920/1080'],
   tags: [Tag('Flutter', Colors.blue), Tag('Dart', Colors.blue)],
   progress: Progress.notStarted,
   date: LeaningItemDate(2022, 12),
@@ -121,7 +120,7 @@ LearningItem content1 = LearningItem(
   description: 'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
 );
 LearningItem content2 = LearningItem(
-  imageUrl: Uri.parse('https://picsum.photos/1080/1920'),
+  imageUrl: ['https://picsum.photos/1080/1920'],
   tags: [Tag('React', Colors.red), Tag('JavaScript', Colors.yellow)],
   progress: Progress.inProgress,
   date: LeaningItemDate(2022, 12),
@@ -130,7 +129,7 @@ LearningItem content2 = LearningItem(
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。このカードは、ユーザーが学習アイテムの詳細情報にアクセスできるようにするために使用されます。ユーザーは、タイトル、説明、画像、タグ、進行状況、日付などの情報を確認できます。さらに、ユーザーは学習アイテムの進行状況を更新することもできます。このカードは、学習アプリや教育アプリなどのアプリケーションで広く使用されています。',
 );
 LearningItem content3 = LearningItem(
-  imageUrl: Uri.parse('https://picsum.photos/1920/1080'),
+  imageUrl: ['https://picsum.photos/1920/1080'],
   tags: [Tag('Python', Colors.green), Tag('Django', Colors.green)],
   progress: Progress.completed,
   date: LeaningItemDate(2022, 12),
