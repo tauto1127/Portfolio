@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:portfolio/model/learning_item_date_model.dart';
-import 'package:portfolio/model/learning_item_model.dart';
-import 'package:portfolio/model/tag_model.dart';
+import 'package:portfolio/model/learning_item/learning_item_date_model.dart';
+import 'package:portfolio/model/learning_item/learning_item_model.dart';
+import 'package:portfolio/model/learning_item/tag_model.dart';
 
 class LearningItemList extends StatelessWidget {
   final List<LearningItem> learningItems;

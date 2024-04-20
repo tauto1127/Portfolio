@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:portfolio/custom_appbar.dart';
-import 'package:portfolio/learning_item.dart';
-import 'package:portfolio/model/learning_item_model.dart';
+import 'package:portfolio/view/custom_appbar.dart';
+import 'package:portfolio/view/learning_item.dart';
+import 'package:portfolio/model/learning_item/learning_item_model.dart';
 
 void main() {
   runApp(const MyApp());

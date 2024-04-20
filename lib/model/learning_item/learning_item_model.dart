@@ -15,9 +15,9 @@
 //       required this.description});
 // }
 import 'package:json_annotation/json_annotation.dart';
-import 'package:portfolio/learning_item.dart';
-import 'package:portfolio/model/learning_item_date_model.dart';
-import 'package:portfolio/model/tag_model.dart';
+import 'package:portfolio/view/learning_item.dart';
+import 'package:portfolio/model/learning_item/learning_item_date_model.dart';
+import 'package:portfolio/model/learning_item/tag_model.dart';
 
 part 'learning_item_model.g.dart';
 
