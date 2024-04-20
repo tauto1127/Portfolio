@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:portfolio/custom_appbar.dart';
 import 'package:portfolio/learning_item.dart';
+import 'package:portfolio/model/learning_item_model.dart';
 
 void main() {
   runApp(const MyApp());
@@ -39,8 +40,10 @@ class _MyAppState extends State<MyApp> {
                   return false;
                 },
                 child: SingleChildScrollView(
-                  controller: scrollController.controller,
-                  child: LearningItemList(learningItems: [content1, content2, content3, content1],)                ),
+                    controller: scrollController.controller,
+                    child: LearningItemList(
+                      learningItems: [content1, content2, content3, content1],
+                    )),
               );
             },
           ),
@@ -83,7 +86,9 @@ class LearningItemCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                      child: ClipRRect(borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18), child: leaningItem.imageWidget)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18),
+                          child: Image.network(leaningItem.imageUrl.toString()))),
                 ],
               );
             }),
@@ -129,47 +134,4 @@ class LearningItemCard extends StatelessWidget {
       );
     });
   }
-}
-
-class LearningItem {
-  final String title;
-  final String description;
-  final Image imageWidget;
-  final List<Tag> tags;
-  final Progress progress;
-  final LeaningItemDate date;
-
-  LearningItem(
-      {required this.imageWidget,
-      required this.tags,
-      required this.progress,
-      required this.date,
-      required this.title,
-      required this.description});
-}
-
-class Tag {
-  final String name;
-  final Color color;
-  Tag(this.name, this.color);
-}
-
-class LeaningItemDate {
-  late final int year;
-  late final int month;
-
-  LeaningItemDate(this.year, this.month) {
-    if (2000 > year || year > 2200) {
-      throw Exception('Year must be between 2000 and 2100');
-    }
-    if (1 > month || month > 12) {
-      throw Exception('Month must be between 1 and 12');
-    }
-  }
-}
-
-enum Progress {
-  notStarted,
-  inProgress,
-  completed,
 }

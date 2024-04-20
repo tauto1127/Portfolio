@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:portfolio/model/learning_item_date_model.dart';
+import 'package:portfolio/model/learning_item_model.dart';
+import 'package:portfolio/model/tag_model.dart';
 
 class LearningItemList extends StatelessWidget {
   final List<LearningItem> learningItems;
@@ -9,11 +12,13 @@ class LearningItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(50.0),
-      child: StaggeredGrid.count(crossAxisCount: 2,
-       mainAxisSpacing: 25, 
-       crossAxisSpacing: 25,  children: learningItems.map((learningItem) => LearningItemCard(leaningItem: learningItem)).toList()),
+      child: StaggeredGrid.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 25,
+          crossAxisSpacing: 25,
+          children: learningItems.map((learningItem) => LearningItemCard(leaningItem: learningItem)).toList()),
     );
-     }
+  }
 }
 
 class LearningItemCard extends StatelessWidget {
@@ -51,7 +56,9 @@ class LearningItemCard extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Flexible(
-                      child: ClipRRect(borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18), child: leaningItem.imageWidget)),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(constraintsss.maxWidth / 18),
+                          child: Image.network(leaningItem.imageUrl.toString()))),
                 ],
               );
             }),
@@ -99,50 +106,14 @@ class LearningItemCard extends StatelessWidget {
   }
 }
 
-class LearningItem {
-  final String title;
-  final String description;
-  final Image imageWidget;
-  final List<Tag> tags;
-  final Progress progress;
-  final LeaningItemDate date;
-
-  LearningItem(
-      {required this.imageWidget,
-      required this.tags,
-      required this.progress,
-      required this.date,
-      required this.title,
-      required this.description});
-}
-
-class Tag {
-  final String name;
-  final Color color;
-  Tag(this.name, this.color);
-}
-
-class LeaningItemDate {
-  late final int year;
-  late final int month;
-
-  LeaningItemDate(this.year, this.month) {
-    if (2000 > year || year > 2200) {
-      throw Exception('Year must be between 2000 and 2100');
-    }
-    if (1 > month || month > 12) {
-      throw Exception('Month must be between 1 and 12');
-    }
-  }
-}
-
 enum Progress {
   notStarted,
   inProgress,
   completed,
 }
+
 LearningItem content1 = LearningItem(
-  imageWidget: Image.network('https://picsum.photos/1920/1080'),
+  imageUrl: Uri.parse('https://picsum.photos/1920/1080'),
   tags: [Tag('Flutter', Colors.blue), Tag('Dart', Colors.blue)],
   progress: Progress.notStarted,
   date: LeaningItemDate(2022, 12),
@@ -150,7 +121,7 @@ LearningItem content1 = LearningItem(
   description: 'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。',
 );
 LearningItem content2 = LearningItem(
-  imageWidget: Image.network('https://picsum.photos/1080/1920'),
+  imageUrl: Uri.parse('https://picsum.photos/1080/1920'),
   tags: [Tag('React', Colors.red), Tag('JavaScript', Colors.yellow)],
   progress: Progress.inProgress,
   date: LeaningItemDate(2022, 12),
@@ -159,7 +130,7 @@ LearningItem content2 = LearningItem(
       'これは学習アイテムカードです。その目的は、学習アイテムをカード形式で表示することです。タイトル、説明、画像があります。また、タグ、進行状況、日付もあります。タグは、学習アイテムのタグを表示するために使用されます。このカードは、ユーザーが学習アイテムの詳細情報にアクセスできるようにするために使用されます。ユーザーは、タイトル、説明、画像、タグ、進行状況、日付などの情報を確認できます。さらに、ユーザーは学習アイテムの進行状況を更新することもできます。このカードは、学習アプリや教育アプリなどのアプリケーションで広く使用されています。',
 );
 LearningItem content3 = LearningItem(
-  imageWidget: Image.network('https://picsum.photos/1920/1080'),
+  imageUrl: Uri.parse('https://picsum.photos/1920/1080'),
   tags: [Tag('Python', Colors.green), Tag('Django', Colors.green)],
   progress: Progress.completed,
   date: LeaningItemDate(2022, 12),
